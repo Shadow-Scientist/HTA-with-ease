@@ -1,0 +1,57 @@
+<html>
+<title>Moving HTA with ease</title>
+<body>
+
+<script type="text/javascript">
+// easing functions
+function easeInQuart(t){ return Math.pow(t, 4) }
+function easeOutQuart(t){ return (1 - Math.pow(1-t, 4)) }
+
+window.moveTo(-150,-150);
+window.resizeTo(-100,-100);
+
+window['child'] = window.showModelessDialog("dlg.hta", window, "dialogWidth:1px;dialogHeight:1px;dialogLeft:-1px;dialogTop:-1px;statusbar:no;help:no;resizable:no;unadorned:yes");
+
+var step = 0; // integer from 0 to 100
+var animate_start = -400; // where to place the HTA first (left) ?
+var animate_end = 20; // where the animation stops (left) ?
+var position_now = null; // the current position (left) of both HTAs
+var box_width = 300; // notification box width
+var box_height = 100; // notification box height
+var box_padding = 20;
+var notification_box_top = screen.availHeight - (box_height+box_padding);
+var delay_onload = 1000; // wait for a while everything is loaded
+var delay_onunload = 2000; // disappear the box after a short delay
+
+function setup_HTA_position()
+{
+window.moveTo(-box_width, notification_box_top);
+window.resizeTo(box_width, box_height);
+
+window['child'].dialogLeft = -box_width+"px";
+window['child'].dialogTop = notification_box_top+"px";
+window['child'].dialogWidth = box_width+"px";
+window['child'].dialogHeight = box_height+"px";
+}
+setup_HTA_position();
+
+function animate()
+{
+if(step < 100)
+{
+step += 4.1; // increasing "step" variable by 4.1 increases the animation speed and results in a smooth finishing
+
+position_now = Math.round(animate_start + (animate_end + Math.abs(animate_start)) * easeOutQuart(step/100));
+window.moveTo(position_now, parseInt(window['child'].dialogTop));
+window['child'].dialogLeft = position_now;
+
+setTimeout(function(){animate()}, 10);
+}
+else{setTimeout(function(){window.close()}, delay_onunload)}
+}
+
+window.onload = function(){setTimeout(function(){ animate(); }, delay_onload)}
+</script>
+
+</body>
+</html>
