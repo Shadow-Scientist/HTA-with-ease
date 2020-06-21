@@ -1,4 +1,4 @@
-# HTA-with-ease
+# Moving a HTA with ease!
 Life goes on the ease. We can see easing everywhere. Have you ever heard about a HTA that can deliver notifications to you, with easing ?
 So how about thinking a HTA as a notification box. Can't we make a HTML Application that can be used to deliver notifications ?
 
